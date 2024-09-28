@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tes Kepribadian</title>
+    <title>Gradasi Warna Pelangi dengan Input Nama</title>
     <style>
         body {
             height: 100vh;
@@ -50,6 +50,22 @@
             color: white;
             text-align: center;
         }
+
+        /* CSS untuk loading spinner */
+        .spinner {
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top: 4px solid white;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            display: none;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
     </style>
 </head>
 <body>
@@ -57,6 +73,7 @@
         <input type="text" id="namaInput" placeholder="Masukkan nama Anda">
     </div>
     <button onclick="hasilkanKepribadian()">Hasilkan</button>
+    <div class="spinner" id="spinner"></div>
     <div class="result" id="result"></div>
 
     <script>
@@ -71,14 +88,25 @@
         function hasilkanKepribadian() {
             const nama = document.getElementById("namaInput").value;
             const resultDiv = document.getElementById("result");
+            const spinner = document.getElementById("spinner");
             
             if (nama === "") {
                 resultDiv.innerHTML = "Silakan masukkan nama terlebih dahulu.";
                 return;
             }
-            
-            const kepribadian = kepribadianList.sort(() => 0.5 - Math.random()).slice(0, 5);
-            resultDiv.innerHTML = `Hai ${nama}, kepribadianmu seperti ini: <br> ${kepribadian.join(", ")}.`;
+
+            // Menampilkan spinner
+            spinner.style.display = "block";
+            resultDiv.innerHTML = ""; // Membersihkan hasil sebelumnya
+
+            // Menunda hasil selama 4 detik
+            setTimeout(() => {
+                const kepribadian = kepribadianList.sort(() => 0.5 - Math.random()).slice(0, 5);
+                resultDiv.innerHTML = `Hai ${nama}, kepribadianmu seperti ini: <br> ${kepribadian.join(", ")}.`;
+
+                // Menghilangkan spinner setelah hasil muncul
+                spinner.style.display = "none";
+            }, 4000);
         }
     </script>
 </body>
